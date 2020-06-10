@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import HomeScreen from '../HomeScreen'
 import ProfileScreen from './ProfileScreen'
-
+import RandomScreen from './RandomScreen'
 
 const AppStack = createStackNavigator()
 const Tab = createMaterialBottomTabNavigator();
@@ -51,7 +51,7 @@ const BottomTabNavigator = () =>  {
       />
       <Tab.Screen
         name="Exercises"
-        component={ProfileScreen}
+        component={RandomScreen}
         options={{
           tabBarLabel: 'Exercises',
           tabBarIcon: ({ color }) => (

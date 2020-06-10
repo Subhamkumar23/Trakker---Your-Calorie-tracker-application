@@ -5,9 +5,65 @@ import { View, Text, StyleSheet } from 'react-native';
 import WelcomeScreen from '../screens/WelcomeScreen'
 import SignInScreen from '../screens/SignInScreen'
 import SignUpScreen from '../screens/SignUpScreen'
+import VerificationScreen from '../screens/VerficationScreen';
+import GenderScreen from '../screens/GenderScreen'
+import UserDetailsScreen from '../screens/UserDetailsScreen'
+import SettingTargetScreen from '../screens/SettingTargetScreen'
 
 const AuthStack = createStackNavigator()
+const RegisterStack = createStackNavigator()
+const SignInStack = createStackNavigator()
+const ProfileSetupStack = createStackNavigator()
 
+const RegisterStackScreen = ({ navigator }) => {
+    return (
+        <RegisterStack.Navigator headerMode='none'>
+            <RegisterStack.Screen 
+                name="SignUpScreen"
+                component={SignUpScreen}
+            />
+            <RegisterStack.Screen 
+                name="VerificationScreen"
+                component={VerificationScreen}
+            />
+        </RegisterStack.Navigator>
+    )
+}
+
+const SignInStackScreen = () => {
+    return (
+        <SignInStack.Navigator headerMode='none'>
+            <SignInStack.Screen 
+                name="SignInScreen"
+                component={SignInScreen}
+            />
+            <SignInStack.Screen 
+                name="VerificationScreen"
+                component={VerificationScreen}
+            />
+        </SignInStack.Navigator>
+    )
+}
+
+export const ProfileSetupStackScreen = () => {
+    return (
+        <ProfileSetupStack.Navigator headerMode='none'>
+            
+            <ProfileSetupStack.Screen 
+                name="GenderScreen"
+                component={GenderScreen}
+            />
+            <ProfileSetupStack.Screen 
+                name="UserDetailsScreen"
+                component={UserDetailsScreen}
+            />
+            <ProfileSetupStack.Screen 
+                name="SettingTargetScreen"
+                component={SettingTargetScreen}
+            />
+        </ProfileSetupStack.Navigator>
+    )
+}
 
 const AuthStackScreen = ({navigator}) => {
     return(
@@ -17,12 +73,12 @@ const AuthStackScreen = ({navigator}) => {
                 component = {WelcomeScreen}
             />
             <AuthStack.Screen 
-                name="SignUpScreen"
-                component = {SignUpScreen}
+                name="RegisterScreen"
+                component = {RegisterStackScreen}
             />
             <AuthStack.Screen 
-                name="SignInScreen"
-                component = {SignInScreen}
+                name="SignInStackScreen"
+                component = {SignInStackScreen}
             />
             
         </AuthStack.Navigator>

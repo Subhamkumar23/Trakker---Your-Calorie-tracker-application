@@ -43,14 +43,14 @@ const WelcomeScreen = ({navigation}) => {
 
                 <TouchableOpacity 
                     style={styles.startBtn}
-                    onPress={() => navigation.navigate('SignUpScreen')}
+                    onPress={() => navigation.navigate('RegisterScreen')}
                 >
                     <Text style={{color: "#384C86", fontFamily:'Avenir', fontWeight:"500", fontSize:20}}>Get Started</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity 
                     style={styles.signIntext}
-                    onPress={() => navigation.navigate('SignInScreen')}
+                    onPress={() => navigation.navigate('SignInStackScreen')}
                 >
                     <Text style={{color: "#6C86C9", fontFamily:'Avenir'}}>
                         Already have an account? <Text style={{color:"#fff", fontWeight:'bold'}}>Sign in</Text>
