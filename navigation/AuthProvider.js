@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     const [verificationId, setVerificationId] = useState(null)
     const [verificationCode, setVerificationCode] = React.useState("");
     const recaptchaVerifier = useRef(null)
-    const [newUser , setNewUser ] = useState(true)
+    const [newUser , setNewUser ] = useState(false)
     // const [userResult, setUserResult ] = useState(null)
 
     const isUserEqual = (googleUser, firebaseUser) => {

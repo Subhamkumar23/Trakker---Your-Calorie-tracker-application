@@ -13,6 +13,7 @@ import ProfileScreen from './ProfileScreen'
 import RandomScreen from './RandomScreen'
 import AddMeal from './AddMeal';
 import FlatListDemo from './ExtraScreen'
+import StatsPage from './StatsPage'
 
 const AppStack = createStackNavigator()
 const Tab = createMaterialBottomTabNavigator();
@@ -53,7 +54,7 @@ const HomeStackScreen = ({ navigator }) => {
 const BottomTabNavigator = () =>  {
   return (
     <Tab.Navigator
-      initialRouteName="Stat"
+      initialRouteName="Home"
       activeColor="#161F2D"
       backgroundColor="#fff"
       barStyle={{ backgroundColor: '#4B6AFC' }}
@@ -63,7 +64,7 @@ const BottomTabNavigator = () =>  {
     >
       <Tab.Screen
         name="Stat"
-        component={HomeScreen}
+        component={StatsPage}
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (

@@ -36,10 +36,19 @@ const SettingTargetScreen = ({ route, navigation}) => {
     // console.log(userHeight);
 
     const userBMI = weight / Math.pow(userHeight/100, 2);
+    
+    let goal;
+    if(weight === targetWeight)
+        goal = 0
+    else if(targetWeight > weight)
+        goal = 1
+    else 
+        goal = 2
+
 
     const updateUserData = () => {
 
-        console.log(user.uid);
+        // console.log(user.uid);
         try {
 
             const calorieRequired = required_calories_perDay();
@@ -55,12 +64,26 @@ const SettingTargetScreen = ({ route, navigation}) => {
                 targetWeight: targetWeight,
                 duration: duration,
                 calorieRequired: calorieRequired,
-                calorieConsumed: 0
+                dailyCalorieRequired: calorieRequired,
+                calorieConsumed: 0,
+                goal: goal
             })
             .then(function(snapshot) {
-                console.log('snapshot', snapshot);
+                // console.log('snapshot', snapshot);
                 setNewUser(false);
                 console.log("NewUser set false");
+            });
+            const today = new Date()
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+
+            firebase.database().ref('users/' + user.uid + '/' + dd + mm + yyyy)
+            .update({
+                calorieRequired: calorieRequired,
+                calorieConsumed: 0,
+                calorieBurned: 0
             });
 
         } catch(err) {

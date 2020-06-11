@@ -47,6 +47,7 @@ export default class FlatListDemo extends Component {
       });
   };
 
+
   listenForTasks() {
     const user = firebase.auth().currentUser;
 
@@ -74,13 +75,14 @@ export default class FlatListDemo extends Component {
 
     console.log(calorie)
     console.log(this.state.data["calorieConsumed"])
-    const updatedCalorie = calorie + parseInt(this.state.data["calorieConsumed"])
+    const updatedCalorie = parseInt(calorie) + parseInt(this.state.data["calorieConsumed"])
+    console.log("updated calorie", updatedCalorie)
     firebase.database().ref('users/' + user.uid)
     .update({
       calorieConsumed: updatedCalorie,
-      calorieRequired: parseInt(this.state.data["calorieRequired"]) - updatedCalorie
+      calorieRequired: parseInt(this.state.data["calorieRequired"]) - parseInt(calorie)
     })
-    // .then(() => alert('success'));
+    .then(() => alert('Calorie updated successfully'));
   }
 
   renderSeparator = () => {
@@ -138,7 +140,7 @@ export default class FlatListDemo extends Component {
                     // />
                     <TouchableOpacity
                       style={{padding: 10}}
-                      onPress={this.updateDatabase(item.calorie)}
+                      onPress={() => this.updateDatabase(item.calorie)}
                     >
                       <Text>{item.Food}</Text>
                       <Text>{item.size}</Text>

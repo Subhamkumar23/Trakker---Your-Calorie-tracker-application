@@ -14,9 +14,9 @@ import Firebase from '../config/Firebase';
 const {width, height} = Dimensions.get('window');
 const screenWidth = Dimensions.get("window").width;
 
-const chartData = {
-    data: [0.0]
-};
+// const chartData = {
+//     data: [0.4]
+// };
   
 const chartConfig = {
     backgroundColor: 'white',
@@ -41,6 +41,10 @@ class HomeScreen extends Component {
           seed: 1,
           error: null,
           refreshing: false,
+          chartData: {
+              data : [0.0]
+          },
+          date: 0,
         };
       }
 
@@ -51,27 +55,38 @@ class HomeScreen extends Component {
         this.listenForTasks();
     }
 
+
     listenForTasks() {
         const user = firebase.auth().currentUser;
 
-        console.log(user.uid)
-        this.setState({ loading: true });
+        // console.log(user.uid, this.state.chartData.data[0])
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        var final = dd+mm+yyyy
+
+        
+        // console.log(this.state.data[this.state.today])
+        
         firebase.database()
         .ref('users/' + user.uid)
-        .once('value', snapshot => {
+        .on('value', snapshot => {
             var tasks = []
 
             this.setState({ data: snapshot.val()})
-            console.log("Data set", this.state.data)
-            // console.log(this.state.data["age"])
-            // snapshot.val().forEach(child => {
-            //     tasks.push({
-            //         name: child.val().name,
-            //         key: child.key
-            //     });
-            // });
-            // tasks = Object.values(this.state.data)
-            // console.log(tasks)
+            this.setState({ date: final });
+            console.log("here",this.state.date)
+            
+            console.log("Data", this.state.data)
+            console.log(this.state.data[this.state.date])
+            console.log("hi", parseInt(this.state.data["calorieConsumed"])/ parseInt(this.state.data["calorieRequired"]))
+            const update = {
+                data: [parseInt(this.state.data["calorieConsumed"])/ parseInt(this.state.data["dailyCalorieRequired"])]
+            }
+            // console.log(update)
+            this.setState({chartData: update})
         });
     }
 
@@ -82,7 +97,7 @@ class HomeScreen extends Component {
                     <View style={styles.background} >
                         <View style={styles.image}>
                             <ProgressChart
-                                data={chartData}
+                                data={this.state.chartData}
                                 width={screenWidth}
                                 height={250}
                                 strokeWidth={12}
@@ -102,7 +117,7 @@ class HomeScreen extends Component {
                         <Text style={{fontSize:12, color:'#fff', left: 15}}>LEFT</Text>
                     </View>
                     <View style={styles.burntCalorie}>
-                        <Text style={{fontSize:20, color:'#fff', fontWeight:'bold'}}>330 <Text style={{fontSize:14}}>kcal</Text></Text>
+                        <Text style={{fontSize:20, color:'#fff', fontWeight:'bold'}}>{Math.ceil(this.state.data["calorieRequired"])}<Text style={{fontSize:14}}>kcal</Text></Text>
                         <Text style={{fontSize:12, color:'#fff'}}>BURNED</Text>
                     </View>
     

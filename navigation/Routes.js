@@ -36,12 +36,12 @@ export default function Routes() {
     user
     return (
       <NavigationContainer>
-        {/* {(user) ? ((!newUser) ? <AppStackScreen /> : <ProfileSetupStackScreen />) : <AuthStackScreen />} */}
+        {(user) ? ((!newUser) ? <AppStackScreen /> : <ProfileSetupStackScreen />) : <AuthStackScreen />}
         {/* {(newUser) ? <ProfileSetupStackScreen /> : <AuthStackScreen />} */}
         {/* {(user) ? <AppStackScreen /> : <AuthStackScreen />} */}
         {/* <ProfileSetupStackScreen /> */}
         {/* <AuthStackScreen /> */}
-        <AppStackScreen />
+        {/* <AppStackScreen /> */}
         {/* <PostsScreen /> */}
       </NavigationContainer>
     );
