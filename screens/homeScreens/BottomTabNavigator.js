@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack'
@@ -10,13 +10,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import HomeScreen from '../HomeScreen'
 import ProfileScreen from './ProfileScreen'
-
+import RandomScreen from './RandomScreen'
+import AddMeal from './AddMeal';
+import FlatListDemo from './ExtraScreen'
 
 const AppStack = createStackNavigator()
 const Tab = createMaterialBottomTabNavigator();
-
+const HomeStack = createStackNavigator()
 
 const AppStackScreen = ({navigator}) => {
+    
     return(
         <AppStack.Navigator headerMode="none">
             <AppStack.Screen 
@@ -27,75 +30,93 @@ const AppStackScreen = ({navigator}) => {
     )
 }
 
+const HomeStackScreen = ({ navigator }) => {
+  return (
+    <HomeStack.Navigator headerMode="none">
+      <HomeStack.Screen 
+        name="HomeScreen"
+        component={HomeScreen}
+        headerMode="none"
+      />
+      <HomeStack.Screen 
+        name="AddMealScreen"
+        component={AddMeal}
+      />
+      <HomeStack.Screen 
+        name="Extra"
+        component={FlatListDemo}
+      />
+    </HomeStack.Navigator>
+  )
+}
 
 const BottomTabNavigator = () =>  {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Stat"
       activeColor="#161F2D"
       backgroundColor="#fff"
-      barStyle={{ backgroundColor: '#694fad' }}
+      barStyle={{ backgroundColor: '#4B6AFC' }}
       options= {{
-          
+          showLabel: false
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Stat"
         component={HomeScreen}
         options={{
-          tabBarLabel: 'Home',
+          // tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            // <MaterialCommunityIcons name="home" color={color} size={26} />
+            <Image 
+              source={require('../../assets/stat.png')}
+            />
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Exercises"
-        component={ProfileScreen}
+        component={FlatListDemo}
         options={{
           tabBarLabel: 'Exercises',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="football" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="Posts"
-        component={ProfileScreen}
+        name="Home"
+        component={HomeStackScreen}
         options={{
-          tabBarLabel: 'Posts',
+          // tabBarLabel: 'Posts',
           tabBarIcon: ({ color }) => (
-            <Ionicons 
-                name="ios-add-circle" 
-                color={color} 
-                size={26} 
-                // style={{
-                //     shadowColor: "#E9446A",
-                //     shadowOffset:{width: 0, height: 0},
-                //     shadowRadius: 10,
-                //     shadowOpacity: 0.3
-                // }}    
+            <Image 
+              source={require('../../assets/home.png')}
             />
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Connections"
         component={ProfileScreen}
         options={{
           tabBarLabel: 'Connections',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="chat" color={color} size={26} />
+            
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: 'Profile',
+          // tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            // <MaterialCommunityIcons name="account" color={color} size={26} />
+            <Image 
+              source={require('../../assets/profile.png')}
+            />
           ),
         }}
       />

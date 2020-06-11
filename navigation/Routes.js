@@ -4,17 +4,17 @@ import { NavigationContainer } from '@react-navigation/native'
 import Firebase from '../config/Firebase'
 
 
-import AuthStackScreen from './AuthStackScreen'
-// import AppStackScreen from './AppStackScreen'
+import AuthStackScreen, {ProfileSetupStackScreen} from './AuthStackScreen'
 import AppStackScreen from '../screens/homeScreens/BottomTabNavigator'
 
 import Loading from '../screens/LoadingScreen'
 
 import { AuthContext } from './AuthProvider'
 
+import PostsScreen from '../screens/homeScreens/PostsScreen'
 
 export default function Routes() {
-    const { user, setUser, isVerified } = useContext(AuthContext);
+    const { user, setUser, newUser } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [initializing, setInitializing] = useState(true);
     
@@ -33,10 +33,16 @@ export default function Routes() {
     if (loading) {
       return <Loading />;
     }
-    
+    user
     return (
       <NavigationContainer>
-        {(user && isVerified) ? <AppStackScreen /> : <AuthStackScreen />}
+        {/* {(user) ? ((!newUser) ? <AppStackScreen /> : <ProfileSetupStackScreen />) : <AuthStackScreen />} */}
+        {/* {(newUser) ? <ProfileSetupStackScreen /> : <AuthStackScreen />} */}
+        {/* {(user) ? <AppStackScreen /> : <AuthStackScreen />} */}
+        {/* <ProfileSetupStackScreen /> */}
+        {/* <AuthStackScreen /> */}
+        <AppStackScreen />
+        {/* <PostsScreen /> */}
       </NavigationContainer>
     );
 
