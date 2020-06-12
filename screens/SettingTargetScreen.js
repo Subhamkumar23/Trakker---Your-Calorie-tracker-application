@@ -63,9 +63,9 @@ const SettingTargetScreen = ({ route, navigation}) => {
                 lifeStyle: lifeStyle,
                 targetWeight: targetWeight,
                 duration: duration,
-                calorieRequired: calorieRequired,
+                // calorieRequired: calorieRequired,
                 dailyCalorieRequired: calorieRequired,
-                calorieConsumed: 0,
+                // calorieConsumed: 0,
                 goal: goal
             })
             .then(function(snapshot) {
@@ -79,7 +79,7 @@ const SettingTargetScreen = ({ route, navigation}) => {
             var yyyy = today.getFullYear();
 
 
-            firebase.database().ref('users/' + user.uid + '/' + dd + mm + yyyy)
+            firebase.database().ref('users/' + user.uid + '/day/' + dd + mm + yyyy)
             .update({
                 calorieRequired: calorieRequired,
                 calorieConsumed: 0,

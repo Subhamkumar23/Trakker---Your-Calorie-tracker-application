@@ -14,9 +14,9 @@ import Firebase from '../config/Firebase';
 const {width, height} = Dimensions.get('window');
 const screenWidth = Dimensions.get("window").width;
 
-// const chartData = {
-//     data: [0.4]
-// };
+const chartData = {
+    data: [0.4]
+};
   
 const chartConfig = {
     backgroundColor: 'white',
@@ -37,6 +37,7 @@ class HomeScreen extends Component {
         this.state = {
           loading: false,
           data: [],
+          dailyData: [],
           page: 1,
           seed: 1,
           error: null,
@@ -56,7 +57,7 @@ class HomeScreen extends Component {
     }
 
 
-    listenForTasks() {
+    listenForTasks = async () => {
         const user = firebase.auth().currentUser;
 
         // console.log(user.uid, this.state.chartData.data[0])
@@ -70,24 +71,50 @@ class HomeScreen extends Component {
         
         // console.log(this.state.data[this.state.today])
         
-        firebase.database()
+        await firebase.database()
         .ref('users/' + user.uid)
         .on('value', snapshot => {
-            var tasks = []
 
             this.setState({ data: snapshot.val()})
             this.setState({ date: final });
-            console.log("here",this.state.date)
+            // console.log("here",this.state.date)
             
             console.log("Data", this.state.data)
-            console.log(this.state.data[this.state.date])
+            // console.log(this.state.data[this.state.date])
             console.log("hi", parseInt(this.state.data["calorieConsumed"])/ parseInt(this.state.data["calorieRequired"]))
+            
+        });
+
+        await firebase.database()
+        .ref('users/'+user.uid+'/day/'+final)
+        .once("value", snapshot => {
+            if(snapshot.exists()) {
+                console.log("exists");
+            } else {
+                console.log("not exist");
+                firebase.database()
+                .ref('users/' + user.uid +'/day/'+ final)
+                .set({
+                    calorieBurned: 0,
+                    calorieConsumed: 0,
+                    calorieRequired: this.state.data["dailyCalorieRequired"],
+                })
+                .then(console.log('sucess'));
+            }
+        })
+
+        await firebase.database()
+        .ref('users/' + user.uid +'/day/'+ final)
+        .on('value', snapshot => {
+            this.setState({ dailyData: snapshot.val()})
+            console.log("mar",this.state.dailyData)
+
             const update = {
-                data: [parseInt(this.state.data["calorieConsumed"])/ parseInt(this.state.data["dailyCalorieRequired"])]
+                data: [parseInt(this.state.dailyData["calorieConsumed"])/ parseInt(this.state.data["dailyCalorieRequired"])]
             }
             // console.log(update)
             this.setState({chartData: update})
-        });
+        })
     }
 
     render() {
@@ -106,18 +133,18 @@ class HomeScreen extends Component {
                                 hideLegend={true}
                                 style={styles.chart}
                             />
-                            <Text style={{color:'white',fontSize:22, fontWeight:'bold'}}>{Math.ceil(this.state.data["calorieConsumed"])} kcal</Text>
+                            <Text style={{color:'white',fontSize:22, fontWeight:'bold'}}>{Math.ceil(this.state.dailyData["calorieConsumed"])} kcal</Text>
                             <Text style={{fontSize:12, color:'#fff'}}>CONSUMED</Text>
                         </View>
     
                     </View>
     
                     <View style={styles.leftCalorie}>
-                        <Text style={{fontSize:20, color:'#fff',fontWeight:'bold'}}>{Math.ceil(this.state.data["calorieRequired"])}<Text style={{fontSize:14}}>kcal</Text></Text>
+                        <Text style={{fontSize:20, color:'#fff',fontWeight:'bold'}}>{Math.ceil(this.state.dailyData["calorieRequired"])}<Text style={{fontSize:14}}>kcal</Text></Text>
                         <Text style={{fontSize:12, color:'#fff', left: 15}}>LEFT</Text>
                     </View>
                     <View style={styles.burntCalorie}>
-                        <Text style={{fontSize:20, color:'#fff', fontWeight:'bold'}}>{Math.ceil(this.state.data["calorieRequired"])}<Text style={{fontSize:14}}>kcal</Text></Text>
+                        <Text style={{fontSize:20, color:'#fff', fontWeight:'bold'}}>{Math.ceil(this.state.dailyData["calorieBurned"])}<Text style={{fontSize:14}}>kcal</Text></Text>
                         <Text style={{fontSize:12, color:'#fff'}}>BURNED</Text>
                     </View>
     

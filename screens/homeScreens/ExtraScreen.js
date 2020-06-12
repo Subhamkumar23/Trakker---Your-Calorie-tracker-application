@@ -51,10 +51,17 @@ export default class FlatListDemo extends Component {
   listenForTasks() {
     const user = firebase.auth().currentUser;
 
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var final = dd+mm+yyyy
+
     console.log(user.uid)
     this.setState({ loading: true });
     firebase.database()
-    .ref('users/' + user.uid)
+    .ref('users/' + user.uid + '/day/' + final)
     .on('value', snapshot => {
         // var tasks = []
 
@@ -72,12 +79,18 @@ export default class FlatListDemo extends Component {
   updateDatabase(calorie) {
     const user = firebase.auth().currentUser;
 
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var final = dd+mm+yyyy
 
     console.log(calorie)
     console.log(this.state.data["calorieConsumed"])
     const updatedCalorie = parseInt(calorie) + parseInt(this.state.data["calorieConsumed"])
     console.log("updated calorie", updatedCalorie)
-    firebase.database().ref('users/' + user.uid)
+    firebase.database().ref('users/' + user.uid + '/day/' + final)
     .update({
       calorieConsumed: updatedCalorie,
       calorieRequired: parseInt(this.state.data["calorieRequired"]) - parseInt(calorie)
